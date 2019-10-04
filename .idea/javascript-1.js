@@ -1,6 +1,6 @@
-export class Javascript1 {
-  total: number = 0;
-  sum(x: any){
+class Javascript1 {
+  total = 0;
+  sum(x){
     if (typeof x === 'number') {
       this.total += x;
     } else {
@@ -8,3 +8,6 @@ export class Javascript1 {
     }
   }
 }
+
+var summary = new Javascript1();
+summary.sum(1);
