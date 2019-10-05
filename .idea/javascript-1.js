@@ -1,13 +1,12 @@
-class Javascript1 {
-  total = 0;
-  sum(x){
-    if (typeof x === 'number') {
-      this.total += x;
+function sum(firstArgument) {
+  var total = firstArgument;
+  return function by(secondArgument) {
+    if (secondArgument === undefined) {
+      return total;
     } else {
-      return this.total;
+      total += secondArgument;
+      return by;
     }
   }
 }
-
-var summary = new Javascript1();
-summary.sum(1);
+sum(1)(2)(3)(4)()
