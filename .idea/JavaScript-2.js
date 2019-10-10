@@ -22,3 +22,10 @@ const func2 = () => new Promise(resolve => {
 promiseReduce([func1,func2], (memo, value) => memo * value, 88);
 
 
+// async function promiseReduce(asyncFuncs, reduce, initialValue) {
+//   asyncFuncs.forEach(async promise => {
+//     const promiseValue = await promise();
+//     return initialValue = reduce(initialValue, promiseValue);
+//   })
+// }
+//
