@@ -176,31 +176,45 @@ const tree = {
         }
     ]
 }
-let array = [];
-
-function findAllLeaf(element) {
+let t = null;
+console.log('hi')
+function leaf(element) {
     for (const k of Object.keys(element)) {
-        if (typeof element[k] !== 'object') {
-            console.log(k);
-            console.log(element[k]);
-            if (element['items']) {
-                console.log(element['items']);
-            }
-            // TODO  вызывать myleaf, в тело объекта передавать element[k] и если есть element['items']
-        }
-        else {
-            return findAllLeaf(element[k]);
-        }
-        // console.log(typeof element[k]);
+        console.log(k, element[k]);
     }
-    // if (typeof element === 'string') {
-    //     console.log(element);
-    // }
-    // else if (typeof element === 'object') {
-    //     return findAllLeaf(element);
-    // }
+    console.log('Я работаю');
+    console.log(element);
+    console.log(element.items)
+    if (element.items){
+        return f(element.items);
 }
-findAllLeaf(tree);
+leaf(tree);
+/*
+ let array = [];
+ function findAllLeaf(element) {
+     for (const k of Object.keys(element)) {
+         if (typeof element[k] !== 'object') {
+             console.log(k);
+             console.log(element[k]);
+             if (element['items']) {
+                 console.log(element['items']);
+             }
+             // TODO  вызывать myleaf, в тело объекта передавать element[k] и если есть element['items']
+         }
+         else {
+             return findAllLeaf(element[k]);
+         }
+         // console.log(typeof element[k]);
+     }
+     if (typeof element === 'string') {
+         console.log(element);
+     }
+     else if (typeof element === 'object') {
+         return findAllLeaf(element);
+     }
+*/
+}
+// findAllLeaf(tree);
 //
 // function f(i) {
 //     if (i < 10) {
@@ -245,4 +259,8 @@ findAllLeaf(tree);
 //     connectedCallBack(){
 //
 //     }
+//     disconnectedCallBack(){
+//
+//     }
+//
 // }

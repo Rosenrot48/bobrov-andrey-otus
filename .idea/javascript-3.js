@@ -41,3 +41,22 @@
 
 
 
+    let pathArray = [];
+
+    var uniqPath;
+
+    function getPath(element) {
+        if (element.childElementCount > 1) {
+            for (let t of element.childNodes) {
+                if (t === element) {
+                    console.log(t);
+                    console.log('equals');
+                    console.log(element)
+                }
+            }
+        }
+        if (element.parentElement) {
+            console.log(element.parentElement);
+            return getPath(element.parentElement);
+        }
+    }
