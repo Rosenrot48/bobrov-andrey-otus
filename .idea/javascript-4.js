@@ -57,8 +57,10 @@ class myTree extends HTMLElement {
     }
 
     set tree(value) {
-        this._tree = value;
-        this.render()
+        if (this.hasAttribute('data')) {
+            this._tree = JSON.parse(this.getAttribute('data'));
+            this.render();
+        }
     }
 
     get tree() {
@@ -101,20 +103,4 @@ function registrationCustomElements() {
 
 
 registrationCustomElements();
-document.addEventListener('DOMContentLoaded', function(event) {
-    const tree = {
-        id: 1,
-        items: [
-            {
-                id: 2,
-                items: [{
-                    id: 3,
-                }],
-            }
-        ],
-    };
-    const myTree = document.getElementsByTagName('my-tree')[0];
-    if (myTree) {
-        myTree.tree = tree
-    }
-});
+<my-tree data={"id:1, items:[{id:2, items: [{id:3}],}]"}></my-tree>
