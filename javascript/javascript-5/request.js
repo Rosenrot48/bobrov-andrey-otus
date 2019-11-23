@@ -1,7 +1,6 @@
 const url = 'http://127.0.0.1:7000';
 const readline = require('readline');
-let requestsCount = 0;
-let isAsync = null;
+// let requestsCount = 0;
 async function requestToServer(requestsCount, isAsync) {
     for (let i =1; i < requestsCount+1; i++) {
         if (isAsync === false) {
@@ -14,7 +13,7 @@ async function requestToServer(requestsCount, isAsync) {
 
 function request() {
     return new Promise((resolve) => {
-        require('javascript/javascript-5/request')(url, function (error, response, body) {
+        require('request')(url, function (error, response, body) {
             console.log(body);
             resolve()
         });
@@ -27,11 +26,12 @@ const read =  readline.createInterface({
 // requestToServer(5,false);
 read.question(`Укажите количество запросов на сервер `, (answer) => {
     read.question(`Укажите тип запросов (асинхронные или синхронные) `, answer1 => {
-        requestsCount = answer;
+       const requestsCount = answer;
+        let isAsync = null;
         if (answer1 === 'асинхронные') {
-            isAsync = true;
+         isAsync = true;
         } else if (answer1 === 'синхронные') {
-            isAsync = false;
+         isAsync = false;
         } else {
             isAsync = answer1;
         }
