@@ -26,7 +26,6 @@ const read =  readline.createInterface({
 // requestToServer(5,false);
 read.question(`Укажите количество запросов на сервер `, (answer) => {
     read.question(`Укажите тип запросов (асинхронные или синхронные) `, answer1 => {
-       const requestsCount = answer;
         let isAsync = null;
         if (answer1 === 'асинхронные') {
          isAsync = true;
@@ -35,7 +34,7 @@ read.question(`Укажите количество запросов на сер�
         } else {
             isAsync = answer1;
         }
-        requestToServer(requestsCount, isAsync);
+        requestToServer(answer, isAsync);
         read.close();
     });
 });
