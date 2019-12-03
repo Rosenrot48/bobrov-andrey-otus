@@ -10,7 +10,7 @@ const TravelCompanyLink = () => <a href="http://localhost:3000">Travel Company</
 
 function timer() {
     const scheduler = (
-        <div className="scheduler" styles={{ backgroundImage:`url(${travel})`}}>
+        <div className="scheduler" style={{ backgroundImage:`url(${travel})`}}>
             <h1>Travel scheduler</h1>
             <ul>
                 <li>6 a.m. - Munich</li>
