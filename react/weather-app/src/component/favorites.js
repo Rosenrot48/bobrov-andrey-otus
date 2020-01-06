@@ -1,43 +1,49 @@
 import  React from 'react';
-import {getCityWeather} from "../service/openweathermap";
-import {City} from "./city";
 
 export class FavoriteCities extends React.Component {
     constructor(props) {
         super(props);
-        this.showFavorites = this.showFavorites.bind(this);
-        this.state = {
-            favoriteCitiesArray: ['Moscow', 'Rome', 'Minsk', 'Paris']
+        this.renderCities = this.renderCities.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        // console.log(nextProps);
+        // console.log(this.props);
+        // const bool = nextProps.favoriteCities !== undefined && nextProps.favoriteCities !== this.props.favoriteCities;
+        // console.log(bool);
+        // return bool;
+        return true;
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.favoriteCities !== this.props.favoriteCities) {
+
         }
     }
-    showFavorites = (name) => {
-        console.log(name);
-        getCityWeather(name)
-            .then(response => {
-                // console.log(response.json());
-            })
+
+    renderCities() {
+        const citiesItem = [];
+        for (let i=0; i < this.props.favoriteCities.length; i++) {
+            citiesItem.push(
+                <div key={this.props.favoriteCities[i].name}>
+                    <li>Город: {this.props.favoriteCities[i].name}, погода: {this.props.favoriteCities[i].temp} ºC </li>
+                    <br />
+                </div>
+            );
+        }
+        return citiesItem;
     }
 
-    render() {
-        const items = this.state.favoriteCitiesArray.map((value, index) =>
-        {
-            return <button onClick={this.showFavorites(value)} key={index}>{value}</button>
 
-            // return <City cityName={value} />
-            // return <li onClick={this.showFavorites(value)} key={index}>{value}</li>
-        });
-        return(
-            <div>
-                    {items}
-                    {/*{this.state.favoriteCitiesArray.map((value, index) =>*/}
-                    {/*{*/}
-                    {/*    return <li onClick={this.showFavorites(value)} key={index}>{value}</li>*/}
-                    {/*})}*/}
-                    {/*<li onClick={getCityWeather('Moscow')}>Moscow</li>*/}
-                    {/*<li onClick={getCityWeather('Rome')}>Rome</li>*/}
-                    {/*<li onClick={getCityWeather('Minsk')}>Minsk</li>*/}
-                    {/*<li onClick={getCityWeather('Paris')}>Paris</li>*/}
-            </div>
-        )
+    render() {
+        if (this.props.favoriteCities !== undefined || null) {
+            return (
+                    <div>
+                        <h2>Мои избранные города</h2>
+                        {this.renderCities()}
+                    </div>
+                )
+        } else {
+            return null;
+        }
     }
 }

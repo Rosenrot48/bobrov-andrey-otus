@@ -1,19 +1,13 @@
-.style{
+.nav-style{
+    display: block;
+    width: 100%;
+    height: 30px;
+    background-color: #cbcbcb;
+}
+.cityName {
     position: absolute;
+    /*background-color: #fff6e6;*/
     top: 50%;
     left: 50%;
-    display: block;
-    margin: auto;
     text-align: center;
-    /*display: flex;*/
-    /*text-align: left;*/
-
-    /*flex-wrap: wrap;*/
-    /*margin: auto;*/
-    /*!*margin-top: 5px;*!*/
-    /*!*margin-left: 5px;*!*/
-    /*!*margin-right: 5px;*!*/
-    /*background: #fffbd4;*/
-    /*justify-content: space-between;*/
-    /*align-content:space-between;*/
 }
