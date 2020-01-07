@@ -16,16 +16,15 @@ export class SearchForm extends React.Component{
         this.handleAddFavorite = this.handleAddFavorite.bind(this);
         this.input = React.createRef();
     }
-    handleAddFavorite(event){
+    handleAddFavorite(event) {
         const favorite = {
             name: this.state.name,
             temp: this.state.temp
         };
-            this.favoriteCities.push(favorite);
-            console.log(this.favoriteCities);
-            this.setState(
-                { favoriteCities: this.favoriteCities }
-            );
+        this.favoriteCities.push(favorite);
+        this.setState(
+            {favoriteCities: this.favoriteCities}
+        );
         event.preventDefault();
     }
     handleSubmit(event) {
@@ -37,9 +36,8 @@ export class SearchForm extends React.Component{
             } else {
                 getCityWeather(this.input.current.value)
                     .then(response => {
-                        console.log(response);
                         if (response.cod === "404") {
-                            console.log("Такой город не найден");
+                            console.log("Город не найден");
                         } else {
                             this.setState({
                                 request: this.input.current.value,
@@ -50,7 +48,6 @@ export class SearchForm extends React.Component{
                                 pressure: response.main.pressure,
                                 humidity: response.main.humidity
                             });
-                            console.log(this.state);
                         }
                     });
             }
@@ -59,7 +56,6 @@ export class SearchForm extends React.Component{
     }
 
     render() {
-        //                    <input type="text" ref={this.input}/>
         return(
             <div>
                 <div>
@@ -79,7 +75,7 @@ export class SearchForm extends React.Component{
                 pressure={this.state.pressure} humidity={this.state.humidity} />
                 </div>
                 <div style={{float: 'left'}}>
-                    <FavoriteCities favoriteCities={this.state.favoriteCities} />
+                    <FavoriteCities favoriteCities={this.favoriteCities} />
                 </div>
             </div>
         )

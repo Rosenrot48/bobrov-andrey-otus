@@ -7,18 +7,13 @@ export class FavoriteCities extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        // console.log(nextProps);
-        // console.log(this.props);
-        // const bool = nextProps.favoriteCities !== undefined && nextProps.favoriteCities !== this.props.favoriteCities;
-        // console.log(bool);
-        // return bool;
         return true;
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.favoriteCities !== this.props.favoriteCities) {
-
-        }
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     if (prevProps.favoriteCities !== this.props.favoriteCities) {
+    //
+    //     }
+    // }
 
     renderCities() {
         const citiesItem = [];
@@ -35,7 +30,7 @@ export class FavoriteCities extends React.Component {
 
 
     render() {
-        if (this.props.favoriteCities !== undefined || null) {
+        if ((this.props.favoriteCities !== undefined || null) && this.props.favoriteCities.length !== 0) {
             return (
                     <div>
                         <h2>Мои избранные города</h2>
