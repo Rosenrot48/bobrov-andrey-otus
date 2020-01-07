@@ -2,6 +2,7 @@
     let pathArray = [];
 
     function getNth(element) {
+        console.log(`${element.nodeName}:nth-child(${Array.from(element.parentNode.children).indexOf(element)+1})`);
         return  `${element.nodeName}:nth-child(${Array.from(element.parentNode.children).indexOf(element)+1})`;
     }
     function getId(element) {
@@ -17,4 +18,4 @@
     }
     return uniqPath;
     }
-    document.querySelectorAll(getPath($0))
+    document.querySelectorAll(getPath($0));
