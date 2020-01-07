@@ -1,15 +1,10 @@
 import React from 'react';
-import cityStyle from './cityStyle.css';
 import {FavoriteCities} from './favorites';
 
 export class City extends React.Component {
     constructor(props){
         super(props);
-        this.addToFavorites = this.addToFavorites.bind(this);
     }
-    // static getDerivedStateFromProps() {
-
-    // }
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return nextProps.city !== undefined && this.props.city !== nextProps.city;
     }
@@ -18,26 +13,18 @@ export class City extends React.Component {
             this.getData();
         }
     }
-    addToFavorites() {
-        this.favoritesArray.push(this.props.name);
-        console.log(this.props.name);
-        console.log(this.favoritesArray);
-    }
     render() {
         if (this.props.name === undefined || null) {
             return null;
         } else {
-        //                <div style={{position: 'absolute', top: '50%', left: '50%', backgroundColor: 'bisque'}}>
             return (
                 <div style={{float: 'right'}}>
-                <CityName className={cityStyle.cityName} cityName={this.props.name}/>
+                <CityName cityName={this.props.name}/>
                 <Temperature temp={this.props.temp}/>
                 <Wind wind={this.props.wind}/>
                 <Pressure pressure={this.props.pressure}/>
                 <Humidity humidity={this.props.humidity}/>
-            {/*<AddButton favorite={this.props.name} />*/}
                 <FavoriteCities favoriteCities={this.props.favoriteCities}/>
-                    {/*<button onClick={this.addToFavorites}>Добавить в избранное</button>*/}
             </div>
             )
         }
@@ -107,35 +94,3 @@ export class Pressure extends React.Component{
         }
     }
 }
-// export class AddButton extends React.Component{
-//     favoritesArray = [];
-//     constructor(props) {
-//         super(props);
-//         this.state = {favoriteCities: []};
-//         this.showFavorites = this.showFavorites.bind(this);
-//     }
-//     shouldComponentUpdate(nextProps, nextState, nextContext) {
-//         return (this.props.favoriteCities !== nextProps.favoriteCities);
-//     }
-//
-//     componentDidUpdate(prevProps, prevState, snapshot) {
-//         if (prevProps.favorite !== this.props.favorite) {
-//             const arr =  this.state.favoriteCities;
-//             console.log(arr);
-//             arr.push(this.props.favorite);
-//             this.setState({favoriteCities: arr});
-//         }
-//     }
-//
-//     showFavorites() {
-//         this.favoritesArray.push(this.props.favorite);
-//         console.log(this.state.favoriteCities);
-//         // this.setState({favoriteCity: this.props.favorite});
-//         // console.log(this.state);
-//     }
-//     render() {
-//         return(
-//             <button onClick={this.showFavorites}>Добавить в избранное </button>
-//                 )
-//         }
-// }
