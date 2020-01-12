@@ -2,18 +2,18 @@ import React from 'react';
 
 //{name, temp, wind, pressure,humidity}
 const City = ({city, onCityClick}) => {
-    console.log(city);
     if (!city) {
         return null;
     }
     return(
     <div>
+        <br />
         <CityName name={city.name}/>
         <Temperature temp={city.temp}/>
         <Wind wind={city.wind}/>
         <Pressure pressure={city.pressure}/>
         <Humidity humidity={city.humidity}/>
-        <AddButton onClick={onCityClick({name: city.name, temp: city.temp})}/>
+        <AddButton name={city.name} onClick={() => onCityClick({name: city.name, temp: city.temp})}/>
     </div>
     )
 };
@@ -43,15 +43,15 @@ const Wind = ({wind}) => {
 };
 
 const Temperature = ({temp}) => {
-    if (!temp) {
-        return null;
-    } else {
+    // if (!temp) {
+    //     return null;
+    // } else {
         return (
             <div>
                 <h4>Температура {temp} ºC</h4>
             </div>
         )
-    }
+    // }
 };
 
 const Humidity = ({humidity}) => {
@@ -76,7 +76,10 @@ const Pressure = ({pressure}) => {
         )
     }
 };
-const AddButton = ({onClick}) => {
+const AddButton = ({name, onClick}) => {
+    if (!name) {
+        return;
+    }
     return(
         <div>
             <button onClick={onClick}>Добавить в избранное</button>

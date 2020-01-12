@@ -1,4 +1,3 @@
-import React from 'react';
 import {connect} from "react-redux";
 import City from "../views/city";
 import {addFavorite} from "../actions";

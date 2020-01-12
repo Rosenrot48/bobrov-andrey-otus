@@ -1,5 +1,4 @@
-import React from 'react';
-import {removeFavorite, search} from "../actions";
+import {fetchCityData, removeFavorite} from "../actions";
 import {connect} from "react-redux";
 import FavoriteCities from "../views/favoriteCities";
 
@@ -15,11 +14,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return{
         onFavoriteClick: favoriteCity => {
-            dispatch(search(favoriteCity.name))
+            dispatch(fetchCityData(favoriteCity.name))
         },
-        onRemoveClick: id => {
-            console.log(id);
-            dispatch(removeFavorite(id))
+        onRemoveClick: id => {dispatch(removeFavorite(id))
         }
     }
 };
