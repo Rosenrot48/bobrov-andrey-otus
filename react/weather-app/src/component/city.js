@@ -2,17 +2,6 @@ import React from 'react';
 import {FavoriteCities} from './favorites';
 
 export class City extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return nextProps.city !== undefined && this.props.city !== nextProps.city;
-    }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.city !== this.props.city) {
-            this.getData();
-        }
-    }
     render() {
         if (this.props.name === undefined || null) {
             return null;
