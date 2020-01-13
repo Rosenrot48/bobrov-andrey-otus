@@ -21,6 +21,12 @@ export function responseCityData(city) {
         city
     }
 }
+export function errorResponseCityData(notFound) {
+    return {
+        type: FETCH_DATA.FETCH_ERROR,
+        notFound
+    }
+}
 const appid = `29fb7d33a8b9b2f9a88f032dc6583362`;
 
 export function fetchCityData(cityName) {
@@ -29,15 +35,22 @@ export function fetchCityData(cityName) {
         return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${appid}`)
             .then(response => response.json())
             .then(response => {
-                const city = {
-                    temp: Math.round(response.main.temp - 273.15),
-                    name: response.name,
-                    key: response.name,
-                    wind: response.wind.speed,
-                    pressure: response.main.pressure,
-                    humidity: response.main.humidity
-                };
-                dispatch(responseCityData(city));
+                if (response.cod !== '404') {
+                    const city = {
+                        temp: Math.round(response.main.temp - 273.15),
+                        name: response.name,
+                        key: response.name,
+                        wind: response.wind.speed,
+                        pressure: response.main.pressure,
+                        humidity: response.main.humidity
+                    };
+                    dispatch(responseCityData(city));
+                } else {
+                    dispatch(errorResponseCityData({
+                        name: cityName,
+                        notFound: 'Город не найден'
+                    }));
+                }
             })
     }
 }

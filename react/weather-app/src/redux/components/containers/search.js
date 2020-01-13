@@ -6,7 +6,6 @@ import {Clock} from "../views/clock";
 
 let SearchForm = ({dispatch}) => {
     let input;
-
     return (
         <div>
             <h1> Погода </h1>

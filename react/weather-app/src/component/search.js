@@ -22,7 +22,6 @@ export class SearchForm extends React.Component{
             name: this.state.name,
             temp: this.state.temp
         };
-        console.log(favorite);
         if (favorite.name !== undefined) {
             this.favoriteCities.push(favorite);
         }

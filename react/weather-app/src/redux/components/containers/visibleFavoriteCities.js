@@ -16,7 +16,8 @@ const mapDispatchToProps = dispatch => {
         onFavoriteClick: favoriteCity => {
             dispatch(fetchCityData(favoriteCity.name))
         },
-        onRemoveClick: id => {dispatch(removeFavorite(id))
+        onRemoveClick: id => {
+            dispatch(removeFavorite(id))
         }
     }
 };

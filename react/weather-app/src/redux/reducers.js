@@ -4,11 +4,24 @@ function fetch(state = null, action) {
     switch (action.type) {
         case FETCH_DATA.FETCH_REQUEST:
             return state;
+            // return Object.assign({}, action.isFetched, action.city);
+            // console.log('hello');
             // return Object.assign({}, state, {
             //     isFetched: true,
+            //     state
+                // city: null
             // });
         case FETCH_DATA.FETCH_RESPONSE:
-            return action.city;
+            return Object.assign({},
+                {
+                    isFetched: false,
+                }, action.city);
+
+        case FETCH_DATA.FETCH_ERROR:
+            return Object.assign({},
+                {isFetched: false},
+                action.notFound);
+            // return action.city;
         default:
             return state;
     }

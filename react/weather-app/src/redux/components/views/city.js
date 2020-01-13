@@ -5,17 +5,37 @@ const City = ({city, onCityClick}) => {
     if (!city) {
         return null;
     }
-    return(
-    <div>
-        <br />
-        <CityName name={city.name}/>
-        <Temperature temp={city.temp}/>
-        <Wind wind={city.wind}/>
-        <Pressure pressure={city.pressure}/>
-        <Humidity humidity={city.humidity}/>
-        <AddButton name={city.name} onClick={() => onCityClick({name: city.name, temp: city.temp})}/>
-    </div>
-    )
+    if (city.notFound) {
+        return (
+            <div>
+                <NotFound notFound={city.notFound} name={city.name} />
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                {/*<br/>*/}
+                <CityName name={city.name}/>
+                <Temperature temp={city.temp}/>
+                <Wind wind={city.wind}/>
+                <Pressure pressure={city.pressure}/>
+                <Humidity humidity={city.humidity}/>
+                <AddButton name={city.name} onClick={() => onCityClick({name: city.name, temp: city.temp})}/>
+            </div>
+        )
+    }
+};
+
+const NotFound = ({notFound, name}) => {
+  if (!notFound) {
+      return null;
+  } else {
+      return (
+          <div>
+              <h1>Город {name} не найден</h1>
+          </div>
+      )
+  }
 };
 
 const CityName = ({name}) => {
@@ -29,7 +49,6 @@ const CityName = ({name}) => {
         )
     }
 };
-
 const Wind = ({wind}) => {
     if (!wind) {
         return null;
