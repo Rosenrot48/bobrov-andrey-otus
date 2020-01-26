@@ -30,10 +30,21 @@ function fetch(state = null, action) {
 function favorites(state = [], action) {
     switch (action.type) {
         case ADD_FAVORITE:
-            return [
-                ...state,
-                action.city
-            ];
+            let isAddPossible =  true;
+            for (let i = 0; i < state.length; i++) {
+                if (state[i].name === action.city.name) {
+                    console.log('Такой город уже есть в избранных');
+                    isAddPossible = false;
+                }
+            }
+            if (isAddPossible) {
+                return [
+                    ...state,
+                    action.city
+                ];
+            } else {
+                return state;
+            }
         case REMOVE_FAVORITE:
             if (action.index < state.length) {
                 return [

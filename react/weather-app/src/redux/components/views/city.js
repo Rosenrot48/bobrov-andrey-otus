@@ -5,7 +5,7 @@ const City = ({city, onCityClick}) => {
     if (!city) {
         return null;
     }
-    if (city.notFound) {
+    else    if (city.notFound) {
         return (
             <div>
                 <NotFound notFound={city.notFound} name={city.name} />
