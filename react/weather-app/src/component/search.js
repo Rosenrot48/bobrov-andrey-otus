@@ -2,6 +2,7 @@ import React from 'react';
 import {getCityWeather} from '../service/openweathermap';
 import {City} from "./city";
 import {FavoriteCities} from "./favorites";
+import {Clock} from "./clock";
 const appTitle =
     <div>
     <h1>Погода</h1>
@@ -21,7 +22,9 @@ export class SearchForm extends React.Component{
             name: this.state.name,
             temp: this.state.temp
         };
-        this.favoriteCities.push(favorite);
+        if (favorite.name !== undefined) {
+            this.favoriteCities.push(favorite);
+        }
         this.setState(
             {favoriteCities: this.favoriteCities}
         );
@@ -34,7 +37,7 @@ export class SearchForm extends React.Component{
             if (this.state.request === this.input.current.value) {
                 console.log('Этот запрос уже обработан и выведен на экран');
             } else {
-                getCityWeather(this.input.current.value)
+                getCityWeather(this.input.current.value.trim())
                     .then(response => {
                         if (response.cod === "404") {
                             console.log("Город не найден");
@@ -60,6 +63,7 @@ export class SearchForm extends React.Component{
             <div>
                 <div>
                 {appTitle}
+                <Clock />
                 <form>
                 <label>Укажите город:&nbsp; </label>
                     <input ref={this.input} type="text"/>
@@ -75,7 +79,7 @@ export class SearchForm extends React.Component{
                 pressure={this.state.pressure} humidity={this.state.humidity} />
                 </div>
                 <div style={{float: 'left'}}>
-                    <FavoriteCities favoriteCities={this.favoriteCities} />
+                    <FavoriteCities favoriteCities={this.state.favoriteCities} />
                 </div>
             </div>
         )

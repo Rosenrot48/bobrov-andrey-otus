@@ -19,7 +19,7 @@ export class FavoriteCities extends React.Component {
         const citiesItem = [];
         for (let i=0; i < this.props.favoriteCities.length; i++) {
             citiesItem.push(
-                <div key={this.props.favoriteCities[i].name}>
+                <div key={i}>
                     <li>Город: {this.props.favoriteCities[i].name}, погода: {this.props.favoriteCities[i].temp} ºC </li>
                     <br />
                 </div>
