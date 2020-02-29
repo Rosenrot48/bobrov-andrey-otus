@@ -11,10 +11,6 @@ const tree =  (path) => {
     return new Promise(async (resolve, reject) => {
 
         const data = await Promise.resolve(fsReader(path));
-        // const error = await Promise.reject(fsReader(path));
-        // if (error) {
-        //     console.log(error);
-        // }
         if (!data || data.length === 0) {
             resolve({
                 files,
@@ -67,6 +63,7 @@ const check = (path) => {
                 resolve('file')
             }
         })
+            .catch(err => console.log(err));
     })
 };
 const forLoop = (path, array) => {
