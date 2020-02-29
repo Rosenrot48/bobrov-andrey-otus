@@ -11,33 +11,40 @@ const tree =  (path) => {
     return new Promise(async (resolve, reject) => {
 
         const data = await Promise.resolve(fsReader(path));
-        if (data.length === 0) {
+        // const error = await Promise.reject(fsReader(path));
+        // if (error) {
+        //     console.log(error);
+        // }
+        if (!data || data.length === 0) {
             resolve({
                 files,
                 dirs
             })
         }
-        const result = await Promise.resolve(forLoop(path, data));
-        if (result.files.length !== 0) {
-            files.push(...result.files);
-        }
-        if (result.dirs.length !== 0) {
-            for (let i = 0; i < result.dirs.length; i++) {
-                const cont = await Promise.resolve(tree(result.dirs[i]));
-                files.push(...cont.files);
-                dirs.push(...cont.dirs);
+        if (data && data.length !== 0) {
+            const result = await Promise.resolve(forLoop(path, data));
+            if (result.files.length !== 0) {
+                files.push(...result.files);
             }
+            if (result.dirs.length !== 0) {
+                for (let i = 0; i < result.dirs.length; i++) {
+                    const cont = await Promise.resolve(tree(result.dirs[i]));
+                    files.push(...cont.files);
+                    dirs.push(...cont.dirs);
+                }
+            }
+            resolve({
+                files,
+                dirs
+            })
         }
-        resolve({
-            files,
-            dirs
-        })
     })
 };
 
 const fsReader = (path) => {
     return new Promise(async (resolve, reject) => {
-        resolve( await fsReadDir(path));
+        resolve( await fsReadDir(path).catch(err => console.log(err)));
+        reject(new Error('Не найдена директорий'))
     })
 };
 
@@ -46,7 +53,7 @@ const run = async (path) => {
     const result = await Promise.resolve(tree(path));
     console.log(result);
 };
-run('/home/andrey/docker_containers');
+run(process.env.npm_config_path.toString());
 
 
 
