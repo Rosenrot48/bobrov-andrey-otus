@@ -1,5 +1,5 @@
 const fs = require('fs');
-const readStream = fs.createReadStream('/your_file', {encoding: 'utf-8'});
+const readStream = fs.createReadStream('your_file_path', {encoding: 'utf-8'});
 
 // Преобразуем строку в массив чисел
 const transformDataToInt = async (string) =>{
@@ -19,9 +19,7 @@ const func = async () => {
     let result = [];
      for await (const $ of reader()) {
          const between = mergeSort($);
-         if (!(result.indexOf(between[0]) > -1)) {
-             result.push(between[0])
-         }
+         result.push(...between);
      }
     return  mergeSort(result);
 };
