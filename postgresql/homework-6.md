@@ -121,4 +121,110 @@ postgres=# select pg_wal_lsn_diff('0/18B38180', '0/15C9A98');
 
 - Сравните tps в синхронном/асинхронном режиме утилитой pgbench. Объясните полученный результат.
 
-- Создайте новый кластер с включенной контрольной суммой страниц. Создайте таблицу. Вставьте несколько значений. Выключите кластер. Измените пару байт в таблице. Включите кластер и сделайте выборку из таблицы. Что и почему произошло? как проигнорировать ошибку и продолжить работу?
+###При синхронном режиме 
+
+```postgresql
+     synchronous_commit 
+    --------------------
+     on
+    (1 row)
+    
+```
+
+>>postgres@instance-9:/home/andrey$ pgbench -c 8 -P 60 -T 600 -U postgres postgres
+>>starting vacuum...end.
+
+| -         | time      | tps         |   lat           | stddev         |
+|-----------|-----------|-------------|-----------------|----------------|
+| progress: | 60.0   s, | 903.0  tps, | 8.854   ms      |    6.855       |
+| progress: | 120.0  s, | 937.2  tps, | 8.536   ms      |    6.461       |
+| progress: | 180.0  s, | 954.3  tps, | 8.382   ms      |    6.160       |
+| progress: | 240.0  s, | 921.3  tps, | 8.682   ms      |    6.866       |
+| progress: | 300.0  s, | 917.9  tps, | 8.714   ms      |    6.971       |
+| progress: | 360.0  s, | 928.5  tps, | 8.615   ms      |    6.954       |
+| progress: | 420.0  s, | 693.5  tps, | 11.526  ms      |    18.285      |
+| progress: | 480.0  s, | 587.3  tps, | 13.615  ms      |    22.628      |
+| progress: | 540.0  s, | 596.0  tps, | 13.427  ms      |    21.861      |
+| progress: | 600.0  s, | 590.9  tps, | 13.534  ms      |    22.511      |
+>transaction type: <builtin: TPC-B (sort of)>
+> 
+>scaling factor: 1
+> 
+>query mode: simple
+> 
+>number of clients: 8
+> 
+>number of threads: 1
+> 
+>duration: 600 s
+> 
+>number of transactions actually processed: 481800
+> 
+>latency average = 9.961 ms
+> 
+>latency stddev = 13.217 ms
+> 
+>tps = 802.975808 (including connections establishing)
+> 
+>tps = 802.979051 (excluding connections establishing)
+>postgres@instance-9:/home/andrey$
+
+
+###При асинхронном режиме
+```postgresql
+    postgres=# show synchronous_commit;
+    synchronous_commit 
+    --------------------
+     off
+    (1 row)
+```
+
+>postgres@instance-9:/home/andrey$ pgbench -c 8 -P 60 -T 600 -U postgres postgres
+> 
+>starting vacuum...end.
+
+| -         | time      | tps         |   lat           | stddev         |
+|-----------|-----------|-------------|-----------------|----------------|
+| progress: | 60.0  s, 	| 1977.6 tps, | 4.043 ms 	    | 1.328  	     |
+| progress: | 120.0 s, 	| 1967.1 tps, | 4.066 ms 	    | 1.300  	     |
+| progress: | 180.1 s, 	| 974.0  tps, | 8.196 ms 	    | 23.044 	     |
+| progress: | 240.1 s, 	| 975.6  tps, | 8.201 ms 	    | 23.099 	     |
+| progress: | 300.1 s, 	| 967.6  tps, | 8.265 ms 	    | 23.248 	     |
+| progress: | 360.1 s, 	| 978.2  tps, | 8.175 ms 	    | 23.030 	     |
+| progress: | 420.1 s, 	| 984.2  tps, | 8.128 ms 	    | 23.028 	     |
+| progress: | 480.1 s, 	| 973.8  tps, | 8.212 ms 	    | 23.038 	     |
+| progress: | 540.1 s, 	| 964.1  tps, | 8.297 ms 	    | 23.295 	     |
+> transaction type: <builtin: TPC-B (sort of)>
+> 
+> scaling factor: 1
+> 
+> query mode: simple
+> 
+> number of clients: 8
+> 
+> number of threads: 1
+> 
+> duration: 600 s
+> 
+> number of transactions actually processed: 703378
+> 
+> latency average = 6.824 ms
+> 
+> latency stddev = 18.968 ms
+> 
+> tps = 1172.090679 (including connections establishing)
+> 
+> tps = 1172.096030 (excluding connections establishing)
+ 
+> Количество обработанных строк увеличилось примерно на 70%
+> 
+> Прирост произошел из-за того, что мы отключили синхронный коммит изменений, т.е. сервер не ждет информации о записи WAL-файла на диск
+
+
+- Создайте новый кластер с включенной контрольной суммой страниц.
+  Создайте таблицу. 
+  Вставьте несколько значений.
+  Выключите кластер. 
+  Измените пару байт в таблице.
+  Включите кластер и сделайте выборку из таблицы. 
+  Что и почему произошло? как проигнорировать ошибку и продолжить работу?
