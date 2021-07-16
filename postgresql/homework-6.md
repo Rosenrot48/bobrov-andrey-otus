@@ -222,9 +222,109 @@ postgres=# select pg_wal_lsn_diff('0/18B38180', '0/15C9A98');
 
 
 - Создайте новый кластер с включенной контрольной суммой страниц.
-  Создайте таблицу. 
+> postgres@instance-10:/home/andrey$ pg_lsclusters
+> 
+> Ver Cluster Port Status Owner    Data directory              Log file
+> 
+> 13  main    5432 online postgres /var/lib/postgresql/13/main /var/log/postgresql/postgresql-13-main.log
+> 
+> После этого выключаем кластер и, при помощи pg_checksums включаем проверку контрольной суммы таблиц
+> su - postgres -c '/usr/lib/postgresql/13/bin/pg_checksums --enable -D "/var/lib/postgresql/13/main"'
+> Checksum operation completed
+> 
+> Files scanned:  916
+> 
+> Blocks scanned: 2964
+> 
+> pg_checksums: syncing data directory
+> 
+> pg_checksums: updating control file
+> 
+> Checksums enabled in cluster
+>
+> Включаем кластер
+>
+> pg_ctlcluster 13 main start
+> 
+> и проверяем настройку data_checksum
+
+```postgresql
+    postgres=# show data_checksums ;
+     data_checksums 
+    ----------------
+     on
+    (1 row)
+```
+  Создайте таблицу.
+```postgresql
+    create table test_checksum(value integer);
+    CREATE TABLE
+```
   Вставьте несколько значений.
-  Выключите кластер. 
+```postgresql
+    insert into test_checksum select generate_series(1,100);
+    INSERT 0 100
+```
+  Выключите кластер.
+> Необходимо узнать расположение файла нашей таблицы
+```postgresql
+  SELECT pg_relation_filepath('test_checksum');
+    pg_relation_filepath 
+    ----------------------
+     base/13414/16384
+    (1 row)
+```
+> pg_ctlcluster 13 main stop
   Измените пару байт в таблице.
-  Включите кластер и сделайте выборку из таблицы. 
+> sudo dd if=/dev/zero of=/var/lib/postgresql/13/main/base/13414/16384 oflag=dsync conv=notrunc bs=1 count=8
+> 
+>8+0 records in
+> 
+>8+0 records out
+> 
+>8 bytes copied, 0.00567589 s, 1.4 kB/s
+
+  Включите кластер и сделайте выборку из таблицы.
+> pg_ctlcluster 13 main start
+```postgresql
+  postgres=# select * from test_checksum ;
+  WARNING:  page verification failed, calculated checksum 54617 but expected 42362
+  ERROR:  invalid page in block 0 of relation base/13414/16384
+``` 
+
   Что и почему произошло? как проигнорировать ошибку и продолжить работу?
+> Чек-сумма, которая была у постгреса до выключения отличается от той, что была получена перед выборкой данных, из-за этого постгрес прервал транзакцию и оповестил об ошибке
+> 
+> Чтобы проигнорировать ошибку необходимо включить настройку ignore_checksum_failure
+```postgresql
+ALTER SYSTEM
+postgres=# select pg_reload_conf();
+ pg_reload_conf 
+----------------
+ t
+(1 row)
+
+postgres=# show ignore_checksum_failure;
+ ignore_checksum_failure 
+-------------------------
+ on
+(1 row)
+```
+
+> И сделать выборку
+```postgresql
+postgres=# select * from test_checksum limit 10;
+ value 
+-------
+     1
+     2
+     3
+     4
+     5
+     6
+     7
+     8
+     9
+    10
+(10 rows)
+```
