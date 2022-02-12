@@ -1,0 +1,25 @@
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: load-balance-postgres
+#spec:
+#  ports:
+#    - port: 5432
+#      targetPort: 5432
+#  selector:
+#    app: acid-masterdata-cluster-balancer
+#  type: LoadBalancer
+#  clusterIP: None
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: acid-masterdata-cluster-balancer
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: acid-masterdata-cluster
+  clusterIP: None
