@@ -1,0 +1,110 @@
+apiVersion: acid.zalan.do/v1
+kind: postgresql
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"acid.zalan.do/v1","kind":"postgresql","metadata":{"annotations":{},"creationTimestamp":"2021-09-20T21:07:06Z","generation":5,"labels":{"team":"acid"},"managedFields":[{"apiVersion":"acid.zalan.do/v1","fieldsType":"FieldsV1","fieldsV1":{"f:status":{".":{},"f:PostgresClusterStatus":{}}},"manager":"postgres-operator","operation":"Update","time":"2021-09-20T21:07:06Z"},{"apiVersion":"acid.zalan.do/v1","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:labels":{".":{},"f:team":{}}},"f:spec":{".":{},"f:allowedSourceRanges":{},"f:enableConnectionPooler":{},"f:numberOfInstances":{},"f:postgresql":{".":{},"f:version":{}},"f:resources":{".":{},"f:limits":{".":{},"f:cpu":{},"f:memory":{}},"f:requests":{".":{},"f:cpu":{},"f:memory":{}}},"f:teamId":{},"f:volume":{".":{},"f:size":{}}}},"manager":"python-requests","operation":"Update","time":"2021-09-20T21:07:06Z"}],"name":"acid-masterdata-cluster","namespace":"default"},"spec":{"allowedSourceRanges":null,"enableConnectionPooler":true,"enableMasterLoadBalancer":true,"enableReplicaLoadBalancer":true,"numberOfInstances":3,"patroni":{"pg_hba":["local
+      all             all                                   trust","hostssl
+      all             +zalandos    127.0.0.1/32       pam","host
+      all             all                127.0.0.1/32       md5","hostssl
+      all             +zalandos    ::1/128            pam","host
+      all             all                ::1/128            md5","local
+      replication     standby                    trust","hostssl replication
+      standby all                md5","hostssl all             +zalandos
+      all                pam","hostssl all             all
+      all                md5","local all all trust","host replication standby
+      all md5","host taxi_trips taxi_back 0.0.0.0/0
+      md5"]},"postgresql":{"version":"13"},"resources":{"limits":{"cpu":"2000m","memory":"4000Mi"},"requests":{"cpu":"1000m","memory":"2000Mi"}},"teamId":"acid","volume":{"size":"100Gi"}}}
+  creationTimestamp: '2021-09-20T21:07:06Z'
+  generation: 16
+  labels:
+    team: acid
+  managedFields:
+    - apiVersion: acid.zalan.do/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          .: {}
+          'f:PostgresClusterStatus': {}
+      manager: postgres-operator
+      operation: Update
+      time: '2021-09-20T21:07:06Z'
+    - apiVersion: acid.zalan.do/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:kubectl.kubernetes.io/last-applied-configuration': {}
+        'f:spec':
+          'f:patroni':
+            'f:pg_hba': {}
+      manager: kubectl-client-side-apply
+      operation: Update
+      time: '2021-09-20T21:32:08Z'
+    - apiVersion: acid.zalan.do/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:labels':
+            .: {}
+            'f:team': {}
+        'f:spec':
+          .: {}
+          'f:allowedSourceRanges': {}
+          'f:enableConnectionPooler': {}
+          'f:enableMasterLoadBalancer': {}
+          'f:numberOfInstances': {}
+          'f:postgresql':
+            .: {}
+            'f:version': {}
+          'f:resources':
+            .: {}
+            'f:limits':
+              .: {}
+              'f:cpu': {}
+              'f:memory': {}
+            'f:requests':
+              .: {}
+              'f:cpu': {}
+              'f:memory': {}
+          'f:teamId': {}
+          'f:volume':
+            .: {}
+            'f:size': {}
+      manager: python-requests
+      operation: Update
+      time: '2021-09-20T21:37:26Z'
+  name: acid-masterdata-cluster
+  namespace: default
+spec:
+  allowedSourceRanges: []
+  enableConnectionPooler: true
+  enableMasterLoadBalancer: true
+  enableReplicaLoadBalancer: true
+  numberOfInstances: 3
+  patroni:
+    pg_hba:
+      - local   all             all                                   trust
+      - hostssl all             +zalandos    127.0.0.1/32       pam
+      - host    all             all                127.0.0.1/32       md5
+      - 'hostssl all             +zalandos    ::1/128            pam'
+      - 'host    all             all                ::1/128            md5'
+      - local   replication     standby                    trust
+      - hostssl replication     standby all                md5
+      - hostssl all             +zalandos    all                pam
+      - hostssl all             all                all                md5
+      - local all all trust
+      - host replication standby all md5
+      - host taxi_trips taxi_back 0.0.0.0/0 md5
+  postgresql:
+    version: '13'
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 4000Mi
+    requests:
+      cpu: 1000m
+      memory: 2000Mi
+  teamId: acid
+  volume:
+    size: 200Gi

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-backend-for-cluster
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-cluster
+  template:
+    metadata:
+      labels:
+        app: app-cluster
+    spec:
+      containers:
+        - name: patroni-frontend
+          image: rosenrotywka/postgres-patroni-backend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: "acid-masterdata-cluster-repl.default.svc.cluster.local"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: "taxi_back"
+            - name: DB_USER_PWD
+              value: "Otus_TAXI_BACK"
+            - name: DB_NAME
+              value: "taxi_trips"
+
+

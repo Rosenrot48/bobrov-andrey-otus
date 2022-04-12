@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ha-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-haproxy
+  template:
+    metadata:
+      labels:
+        app: my-haproxy
+    spec:
+      containers:
+        - name: haproxy
+          image: rosenrotywka/ha-proxy:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-haproxy-entrypoint
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-haproxy
+  ports:
+    - port: 5000
+      name: "database"
+      targetPort: 5000
+    - port: 7000
+      name: "health-status"
+      targetPort: 7000
