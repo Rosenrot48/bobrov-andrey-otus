@@ -1,0 +1,11 @@
+{
+  "name": "npm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tree.js",
+  "scripts": {
+    "tree": "node tree.js $path"
+  },
+  "author": "",
+  "license": "ISC"
+}
